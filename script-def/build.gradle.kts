@@ -1,4 +1,5 @@
 import org.jreleaser.model.Active
+import org.jreleaser.model.Signing
 
 plugins {
     kotlin("jvm")
@@ -9,6 +10,9 @@ plugins {
 
 group = "org.jire.ktsworkaround"
 version = "1.0.0"
+description = "Easily fix KTS editor support for new IntelliJ versions"
+
+val isSnapshot = version.toString().endsWith("SNAPSHOT")
 
 repositories {
     mavenCentral()
@@ -32,6 +36,12 @@ java {
 }
 
 publishing {
+    repositories {
+        maven {
+            name = if (isSnapshot) "staging" else "release"
+            setUrl(layout.buildDirectory.dir(if (isSnapshot) "staging-deploy" else "release-deploy"))
+        }
+    }
     publications {
         create<MavenPublication>("script-def") {
             from(components["java"])
@@ -76,44 +86,50 @@ tasks.javadoc {
 }
 
 jreleaser {
+    project {
+        author("Jire")
+        license = "MIT"
+        links {
+            homepage = "https://github.com/Jire/ktsworkaround"
+        }
+        inceptionYear = "2025"
+        description = "Easily fix KTS editor support for new IntelliJ versions"
+    }
     signing {
         active = Active.ALWAYS
+        mode = Signing.Mode.FILE
         armored = true
     }
     deploy {
         maven {
             mavenCentral {
                 register("release-deploy") {
+                    enabled = !isSnapshot
                     active = Active.RELEASE
                     url = "https://central.sonatype.com/api/v1/publisher"
-                    stagingRepository("target/staging-deploy")
+                    applyMavenCentralRules = true
+                    stagingRepository("build/release-deploy")
                 }
             }
             nexus2 {
                 register("snapshot-deploy") {
+                    enabled = isSnapshot
                     active = Active.SNAPSHOT
                     snapshotUrl = "https://central.sonatype.com/repository/maven-snapshots/"
-                    applyMavenCentralRules = true
                     snapshotSupported = true
-                    closeRepository = true
-                    releaseRepository = true
-                    stagingRepository("target/staging-deploy")
+                    applyMavenCentralRules = true
+                    stagingRepository("build/staging-deploy")
                 }
             }
         }
     }
-    project {
-        author("Jire")
-        license.set("MIT")
-        links {
-            homepage = "https://github.com/Jire/ktsworkaround"
-        }
-        inceptionYear = "2025"
-    }
     release {
         github {
-            repoOwner = "Jire"
-            overwrite = true
+            enabled = false
         }
     }
+}
+
+tasks.withType<GenerateModuleMetadata>().configureEach {
+    enabled = false
 }
