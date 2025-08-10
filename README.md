@@ -33,8 +33,8 @@ object ExampleCompilation : ScriptCompilationConfiguration({
         dependenciesFromClassContext(KtsScriptTemplate::class, wholeClasspath = true)
     }
 }) {
-    private fun readResolve(): Any = DefaultCompilation
+    private fun readResolve(): Any = ExampleCompilation
 }
 ```
 
-### And finally, in IntelliJ IDEA, go to `File -> Invalidate Caches / Restart` and restart the IDE.
+### And finally, in IntelliJ IDEA, go to `File -> Invalidate Caches / Restart` and restart the IDE. That's it!
