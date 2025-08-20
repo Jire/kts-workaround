@@ -6,7 +6,7 @@ _easily fix KTS editor support for new IntelliJ versions_
 
 ```kotlin
 dependencies {
-    implementation("org.jire.ktsworkaround:script-def:1.0.0")
+    implementation("org.jire.ktsworkaround:script-def:1.1.0")
 }
 ```
 
@@ -37,4 +37,11 @@ object ExampleCompilation : ScriptCompilationConfiguration({
 }
 ```
 
-### And finally, in IntelliJ IDEA, go to `File -> Invalidate Caches / Restart` and restart the IDE. That's it!
+### And finally, in IntelliJ IDEA, go to
+
+`File -> Invalidate Caches / Restart` and restart the IDE, then build your Gradle project. That's it!
+
+### Go-to (CTRL clicking) Support
+
+Please install my [KTS Support](https://plugins.jetbrains.com/plugin/28164-kts-support) plugin from the IntelliJ
+Marketplace to get go-to (CTRL clicking) support for your KTS scripts.
