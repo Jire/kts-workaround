@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "org.jire.ktsworkaround"
-version = "1.0.0"
+version = "1.1.0-SNAPSHOT"
 description = "Easily fix KTS editor support for new IntelliJ versions"
 
 val isSnapshot = version.toString().endsWith("SNAPSHOT")
@@ -27,7 +27,7 @@ dependencies {
 }
 
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(21)
 }
 
 java {
