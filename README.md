@@ -45,3 +45,4 @@ object ExampleCompilation : ScriptCompilationConfiguration({
 
 Please install my [KTS Support](https://plugins.jetbrains.com/plugin/28164-kts-support) plugin from the IntelliJ
 Marketplace to get go-to (CTRL clicking) support for your KTS scripts.
+ 
